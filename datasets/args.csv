@@ -1,0 +1,10 @@
+dataset,n_classes,features,sample_rate,noise_rate,epochs,batch_size,restore_best,model,data_length_time,n_h_block,n_train_h_block,n_valid_h_block,n_test_h_block,h_moving_step,segments_times,segments_overlaps,decision_times,decision_overlaps
+datasets/ConfLongDemo_JSI/,5,"['x', 'y', 'z']",30,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[1 * 60],[0]
+datasets/DriverIdentification/,10,"['x-accelerometer', 'y-accelerometer', 'z-accelerometer', 'x-gyroscope', 'y-gyroscope', 'z-gyroscope']",2,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[5 * 60],[0]
+datasets/Healthy_Older_People/,12,"['X', 'Y', 'Z']",1,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[2 * 60],[0]
+datasets/Motor_Failure_Time/,3,"['x', 'y', 'z']",18,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[5 * 60],[0]
+datasets/Power_consumption/,3,"['Temperature', 'Humidity', 'Wind Speed', 'general diffuse flows', 'diffuse flows',  'Consumption']",1,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[40,50,60, 2 * 60, 2 * 60, 3 * 60, 4 * 60, 50 * 60]",[0.75],[30 * 60],[0]
+datasets/PRSA2017/,12,"['PM2.5', 'PM10', 'SO2', 'NO2', 'CO', 'O3', 'TEMP', 'PRES', 'DEWP', 'RAIN', 'wd', 'WSPM']",1,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[30,40,50,60,70,80,90,100]",[0.75],[30 * 60],[0]
+datasets/RSSI/,12,"['rssiOne', 'rssiTwo']",1,100,50,32,1,['MULTI_CNN'],-1,6,4,1,1,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[2 * 60],[0]
+datasets/User_Identification_From_Walking/,13,"[' x acceleration', ' y acceleration', ' z acceleration']",32,100,50,32,1,['MULTI_CNN'],-1,10,5,2,3,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[24],[0]
+datasets/WISDM/,10,"['X-accel', 'Y-accel', 'Z-accel']",20,100,50,32,1,['MULTI_CNN'],-1,15,9,2,4,1,"[1,2,3,4,5,6,7,8,9,10]",[0.75],[5 * 60],[0]

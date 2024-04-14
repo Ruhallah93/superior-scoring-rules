@@ -1,0 +1,38 @@
+"\cite{casale2012personalization}"
+
+https://archive.ics.uci.edu/ml/datasets/User+Identification+From+Walking+Activity
+
+Sampling Rate: 32
+features = [' x acceleration', ' y acceleration', ' z acceleration']
+classes = org - ignored = 22 -  9 = 13
+Source:
+
+Pierluigi Casale, Computer Vision Center, Barcelona, Spain. Email: plcasale '@' ieee.org
+
+Data Set Information:
+
+The dataset collects data from an Android smartphone positioned in the chest pocket. Accelerometer Data are collected from 22 participants walking in the wild over a predefined path. The dataset is intended for Activity Recognition research purposes. It provides challenges for identification and authentication of people using motion patterns.
+--- Sampling frequency of the accelerometer: DELAY_FASTEST with network connections disabled
+--- Number of Participants: 22
+--- Data Format: CSV
+
+Attribute Information:
+
+--- Data are separated by participant
+--- Each file contains the following information
+---- time-step, x acceleration, y acceleration, z acceleration
+
+Relevant Papers:
+
+--- Casale, P. Pujol, O. and Radeva, P.
+'Personalization and user verification in wearable systems using biometric walking patterns'
+Personal and Ubiquitous Computing, 16(5), 563-580, 2012
+
+
+Citation Request:
+
+--- Casale, P. Pujol, O. and Radeva, P.
+'Personalization and user verification in wearable systems using biometric walking patterns'
+Personal and Ubiquitous Computing, 16(5), 563-580, 2012
+
+\cite{casale2012personalization}
