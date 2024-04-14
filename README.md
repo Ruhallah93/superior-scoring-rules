@@ -86,17 +86,11 @@ The hyperparameters of this project:
 
 #### Hyperparameters Tuning
 
-| Dataset | Grid Search Result                                                                                   |
-|---------|------------------------------------------------------------------------------------------------------|
-| CLD     | <img src="hyperparameters-tuning/ConfLongDemo_JSI/CNN.png" width="200" height="200">                 |
-| Drivers | <img src="hyperparameters-tuning/DriverIdentification/CNN.png" width="200" height="200">             |
-| HOP     | <img src="hyperparameters-tuning/Healthy_Older_People/CNN.png" width="200" height="200">             |
-| MFT     | <img src="hyperparameters-tuning/Motor_Failure_Time/CNN.png" width="200" height="200">               |
-| PC      | <img src="hyperparameters-tuning/Power_consumption/CNN.png" width="200" height="200">                |
-| PRSA    | <img src="hyperparameters-tuning/PRSA2017/CNN.png" width="200" height="200">                         |
-| RSSI    | <img src="hyperparameters-tuning/RSSI/CNN.png" width="200" height="200">                             |
-| UIFW    | <img src="hyperparameters-tuning/User_Identification_From_Walking/CNN.png" width="200" height="200"> |
-| WISDM   | <img src="hyperparameters-tuning/WISDM/CNN.png" width="200" height="200">                            |
+| Dataset | Grid Search Result                                                                                   | Dataset | Grid Search Result                                                                     | Dataset | Grid Search Result                                                                                   |
+|---------|------------------------------------------------------------------------------------------------------|---------|----------------------------------------------------------------------------------------|---------|------------------------------------------------------------------------------------------------------|
+| CLD     | <img src="hyperparameters-tuning/ConfLongDemo_JSI/CNN.png" width="200" height="200">                 | MFT     | <img src="hyperparameters-tuning/Motor_Failure_Time/CNN.png" width="200" height="200"> | RSSI    | <img src="hyperparameters-tuning/RSSI/CNN.png" width="200" height="200">                             |
+| Drivers | <img src="hyperparameters-tuning/DriverIdentification/CNN.png" width="200" height="200">             | PC      | <img src="hyperparameters-tuning/Power_consumption/CNN.png" width="200" height="200">  | UIFW    | <img src="hyperparameters-tuning/User_Identification_From_Walking/CNN.png" width="200" height="200"> |
+| HOP     | <img src="hyperparameters-tuning/Healthy_Older_People/CNN.png" width="200" height="200">             | PRSA    | <img src="hyperparameters-tuning/PRSA2017/CNN.png" width="200" height="200">           | WISDM   | <img src="hyperparameters-tuning/WISDM/CNN.png" width="200" height="200">                            |
 
 ## CNN Classifier
 
