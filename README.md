@@ -13,7 +13,8 @@ By integrating penalties for misclassifications, PBS and PLL modify traditional 
 
 ## Files & Directories
 
-1. Superior_Scoring_Rules.ipynb: It includes the implementation and analysis of the two proposed superior scoring rules. 
+1. Superior_Scoring_Rules.ipynb: It includes the implementation and analysis of the two proposed superior scoring rules.
+2. superior_scoring_rules.py: It includes the implementation of Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL).
 2. /history: This folder contains images of statistical analysis. 
 3. /hyperparameters-tuning: This folder includes the results of hyperparameter tuning.
 
