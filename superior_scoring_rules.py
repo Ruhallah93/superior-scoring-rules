@@ -9,7 +9,7 @@ def pbs(y, q):
     ST = tf.math.subtract(q, tf.reduce_sum(tf.where(y == 1, q, y), axis=1)[:, None])
     ST = tf.where(ST < 0, tf.constant(0, dtype=tf.float32), ST)
     payoff = tf.reduce_sum(tf.math.ceil(ST), axis=1)
-    M = (c - 1) / (c ** 2)
+    M = (c - 1) / (c)
     payoff = tf.where(payoff > 0, tf.constant(M, dtype=tf.float32), payoff)
     return tf.math.reduce_mean(tf.math.reduce_mean(tf.math.square(tf.math.subtract(y, q)), axis=1) + payoff)
 
