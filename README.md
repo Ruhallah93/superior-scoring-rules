@@ -5,6 +5,18 @@
 [Johan Wahlström](https://emps.exeter.ac.uk/computer-science/staff/cw840)<sup>2</sup><br>
 <sup>1</sup>Amirkabir University of Technology, <sup>2</sup>University of Exeter, <sup>3</sup>University of Tehran
 
+*If you use our method, please cite it by*:
+```
+@article{ahmadian2025superior,
+  title={Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks},
+  author={Ahmadian, Rouhollah and Ghatee, Mehdi and Wahlstr{\"o}m, Johan},
+  journal={International Journal of Approximate Reasoning},
+  pages={109421},
+  year={2025},
+  publisher={Elsevier}
+}
+```
+
 ## About The Project
 This study introduces novel superior scoring rules called Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL) to improve model evaluation for probabilistic classification.
 Traditional scoring rules like Brier Score and Logarithmic Loss sometimes assign better score to misclassifications in comparison with correct classifications.
