@@ -18,10 +18,27 @@
 ```
 
 ## About The Project
-This study introduces novel superior scoring rules called Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL) to improve model evaluation for probabilistic classification.
-Traditional scoring rules like Brier Score and Logarithmic Loss sometimes assign better score to misclassifications in comparison with correct classifications.
-This discrepancy from the actual preference for rewarding correct classifications can lead to suboptimal model selection.
-By integrating penalties for misclassifications, PBS and PLL modify traditional proper scoring rules to consistently assign higher scores to correct predictions.
+Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
+
+To illustrate this inconsistency, consider the following scenario:
+\begin{itemize}
+\item 
+True Label: $[0, 1, 0]$,
+\item 
+Predicted Vector A: $[0.33, 0.34, 0.33]$,
+\item 
+Predicted Vector B: $[0.51, 0.49, 0]$.
+\end{itemize}
+Vector $A$ represents a correct prediction since the argmax of $A$ matches the true label, whereas Vector $B$ represents an incorrect prediction because its argmax does not correspond to the true label. Intuitively, scoring rules should reward $A$ with a better score than $B$, as $A$ achieves accurate classification. However, traditional scoring rules may not align with this intuition.
+The following table compares the Brier Score and Logarithmic Loss for these vectors:
+
+| extbf{Vector} | \textbf{True Label (Y)} | \textbf{Predicted Probabilities (P)} | \textbf{Brier Score}                                                 | \textbf{Logarithmic Loss}                | \textbf{Prediction State} |
+|---------------|-------------------------|--------------------------------------|----------------------------------------------------------------------|------------------------------------------|---------------------------|
+| \textbf{A}    | $[0, 1, 0]$             | $[0.33, 0.34, 0.33]$                 | $\sum (Y_i - P_i)^2 = (0-0.33)^2 + (1-0.34)^2 + (0-0.33)^2 = 0.6534$ | $-\log(P_{true}) = -\log(0.34) = 0.4685$ | \textbf{Correct}          |
+| \textbf{B}    | $[0, 1, 0]$             | $[0.51, 0.49, 0.00]$                 | $\sum (Y_i - P_i)^2 = (0-0.51)^2 + (1-0.49)^2 + (0-0.00)^2 = 0.5202$ | $-\log(P_{true}) = -\log(0.49) = 0.3098$ | \textbf{Incorrect}        |
+
+As shown in the table, while $A$ is the correct prediction, its Brier Score (0.6534) is not better than $B$’s (0.5202). In addition, the Logarithmic Loss favors $B$ (0.3098) over $A$ (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
+
 
 ## Code
 
