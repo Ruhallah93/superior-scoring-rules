@@ -99,6 +99,8 @@ def pll(y, q):
 
 ## Paper
 
+[Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks](https://www.sciencedirect.com/science/article/abs/pii/S0888613X25000623
+
 [Rouhollah Ahmadian](https://scholar.google.com/citations?user=WwHM50MAAAAJ&hl=en&oi=ao)<sup>1</sup> ,
 [Mehdi Ghatee](https://scholar.google.com/citations?user=b7lfEJwAAAAJ&hl=en&oi=ao)<sup>1</sup>,
 [Johan Wahlström](https://scholar.google.com/citations?user=9rHhb5IAAAAJ&hl=en)<sup>2</sup><br>
