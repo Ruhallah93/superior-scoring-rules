@@ -6,7 +6,7 @@
 - ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
 - ❌ They can give better scores to incorrect models.
 
-Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
+Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score (or MSE) and Logarithmic Loss (or Cross-Entropy) exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
 
 To illustrate this inconsistency, consider the following scenario:  
 - True Label: `[0, 1, 0]`,  
