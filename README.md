@@ -2,8 +2,8 @@
 
 > 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score and Log Loss. Strictly proper, consistent, and better for model selection.
 
-[Rouhollah Ahmadian](https://www.linkedin.com/in/ruhollah-ahmadian)<sup>1</sup> ,
-[Mehdi Ghatee](https://aut.ac.ir/cv/2174/MEHDI-GHATEE?slc_lang=en&&cv=2174&mod=scv)<sup>1</sup>,
+[Rouhollah Ahmadian](https://scholar.google.com/citations?user=WwHM50MAAAAJ&hl=en&oi=ao)<sup>1</sup> ,
+[Mehdi Ghatee](https://scholar.google.com/citations?user=b7lfEJwAAAAJ&hl=en&oi=ao)<sup>1</sup>,
 [Johan Wahlström](https://scholar.google.com/citations?user=9rHhb5IAAAAJ&hl=en)<sup>2</sup><br>
 <sup>1</sup>Amirkabir University of Technology, <sup>2</sup>University of Exeter
 
