@@ -18,26 +18,24 @@
 ```
 
 ## About The Project
-Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
+Evaluation metrics play a critical role in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. Traditional metrics like the Brier Score and Logarithmic Loss, while widely used, exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
 
-To illustrate this inconsistency, consider the following scenario:
-\begin{itemize}
-\item 
-True Label: $[0, 1, 0]$,
-\item 
-Predicted Vector A: $[0.33, 0.34, 0.33]$,
-\item 
-Predicted Vector B: $[0.51, 0.49, 0]$.
-\end{itemize}
-Vector $A$ represents a correct prediction since the argmax of $A$ matches the true label, whereas Vector $B$ represents an incorrect prediction because its argmax does not correspond to the true label. Intuitively, scoring rules should reward $A$ with a better score than $B$, as $A$ achieves accurate classification. However, traditional scoring rules may not align with this intuition.
-The following table compares the Brier Score and Logarithmic Loss for these vectors:
+To illustrate this inconsistency, consider the following scenario:  
+- True Label: `[0, 1, 0]`,  
+- Predicted Vector `A`: `[0.33, 0.34, 0.33]`,  
+- Predicted Vector `B`: `[0.51, 0.49, 0]`.  
 
-| extbf{Vector} | \textbf{True Label (Y)} | \textbf{Predicted Probabilities (P)} | \textbf{Brier Score}                                                 | \textbf{Logarithmic Loss}                | \textbf{Prediction State} |
-|---------------|-------------------------|--------------------------------------|----------------------------------------------------------------------|------------------------------------------|---------------------------|
-| \textbf{A}    | $[0, 1, 0]$             | $[0.33, 0.34, 0.33]$                 | $\sum (Y_i - P_i)^2 = (0-0.33)^2 + (1-0.34)^2 + (0-0.33)^2 = 0.6534$ | $-\log(P_{true}) = -\log(0.34) = 0.4685$ | \textbf{Correct}          |
-| \textbf{B}    | $[0, 1, 0]$             | $[0.51, 0.49, 0.00]$                 | $\sum (Y_i - P_i)^2 = (0-0.51)^2 + (1-0.49)^2 + (0-0.00)^2 = 0.5202$ | $-\log(P_{true}) = -\log(0.49) = 0.3098$ | \textbf{Incorrect}        |
+Vector `A` represents a correct prediction since the argmax of `A` matches the true label, whereas Vector `B` represents an incorrect prediction because its argmax does not correspond to the true label. Intuitively, scoring rules should reward `A` with a better score than `B`, as `A` achieves accurate classification. However, traditional scoring rules may not align with this intuition.  
 
-As shown in the table, while $A$ is the correct prediction, its Brier Score (0.6534) is not better than $B$’s (0.5202). In addition, the Logarithmic Loss favors $B$ (0.3098) over $A$ (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
+**Comparison of Brier Score and Logarithmic Loss for Vectors `A` and `B`**  
+
+| Vector | True Label (Y) | Predicted Probabilities (P) | Brier Score | Log Loss | State |
+|--------|----------------|-----------------------------|-------------|----------|-------|
+| **`A`**  | `[0, 1, 0]`    | `[0.33, 0.34, 0.33]`        | 0.6534      | 0.4685   | ✅ Correct |
+| **`B`**  | `[0, 1, 0]`    | `[0.51, 0.49, 0.00]`        | 0.5202      | 0.3098   | ❌ Incorrect |  
+
+As shown in the table, while `A` is the correct prediction, its Brier Score (0.6534) is not better than `B`’s (0.5202). In addition, the Logarithmic Loss favors `B` (0.3098) over `A` (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
+
 
 
 ## Code
