@@ -2,23 +2,6 @@
 
 > 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score and Log Loss. Strictly proper, consistent, and better for model selection.
 
-[Rouhollah Ahmadian](https://scholar.google.com/citations?user=WwHM50MAAAAJ&hl=en&oi=ao)<sup>1</sup> ,
-[Mehdi Ghatee](https://scholar.google.com/citations?user=b7lfEJwAAAAJ&hl=en&oi=ao)<sup>1</sup>,
-[Johan Wahlström](https://scholar.google.com/citations?user=9rHhb5IAAAAJ&hl=en)<sup>2</sup><br>
-<sup>1</sup>Amirkabir University of Technology, <sup>2</sup>University of Exeter
-
-*If you use our method, please cite it by*:
-```
-@article{ahmadian2025superior,
-  title={Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks},
-  author={Ahmadian, Rouhollah and Ghatee, Mehdi and Wahlstr{\"o}m, Johan},
-  journal={International Journal of Approximate Reasoning},
-  pages={109421},
-  year={2025},
-  publisher={Elsevier}
-}
-```
-
 ## 🔍 Problem with Traditional Metrics  
 - ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
 - ❌ They can give better scores to incorrect models.
@@ -113,6 +96,25 @@ def pll(y, q):
 2. [superior_scoring_rules.py](https://github.com/Ruhallah93/superior-scoring-rules/blob/main/superior_scoring_rules.py): It includes the implementation of Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL).
 2. [/history](https://github.com/Ruhallah93/superior-scoring-rules/tree/main/history): This folder contains images of statistical analysis. 
 3. [/hyperparameters-tuning](https://github.com/Ruhallah93/superior-scoring-rules/tree/main/hyperparameters-tuning): This folder includes the results of hyperparameter tuning.
+
+## Paper
+
+[Rouhollah Ahmadian](https://scholar.google.com/citations?user=WwHM50MAAAAJ&hl=en&oi=ao)<sup>1</sup> ,
+[Mehdi Ghatee](https://scholar.google.com/citations?user=b7lfEJwAAAAJ&hl=en&oi=ao)<sup>1</sup>,
+[Johan Wahlström](https://scholar.google.com/citations?user=9rHhb5IAAAAJ&hl=en)<sup>2</sup><br>
+<sup>1</sup>Amirkabir University of Technology, <sup>2</sup>University of Exeter
+
+*If you use our method, please cite it by*:
+```
+@article{ahmadian2025superior,
+  title={Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks},
+  author={Ahmadian, Rouhollah and Ghatee, Mehdi and Wahlstr{\"o}m, Johan},
+  journal={International Journal of Approximate Reasoning},
+  pages={109421},
+  year={2025},
+  publisher={Elsevier}
+}
+```
 
 ## 🤝 How to Contribute  
 - 🐛 Report bugs via [Issues](https://github.com/Ruhallah93/superior-scoring-rules/issues).  
