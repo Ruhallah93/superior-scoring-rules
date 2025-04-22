@@ -1,4 +1,6 @@
-# Superior Scoring Rules
+# Superior Scoring Rules: Better Metrics for Probabilistic Classification
+
+> 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score and Log Loss. Strictly proper, consistent, and better for model selection.
 
 [Rouhollah Ahmadian](https://www.linkedin.com/in/ruhollah-ahmadian)<sup>1</sup> ,
 [Mehdi Ghatee](https://aut.ac.ir/cv/2174/MEHDI-GHATEE?slc_lang=en&&cv=2174&mod=scv)<sup>1</sup>,
@@ -17,7 +19,15 @@
 }
 ```
 
+## 🔍 Problem with Traditional Metrics  
+- ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
+- ❌ They can give better scores to incorrect models.
+
+## 🎯 Our Solution: PBS & PLL  
+- ✅ Fixes inconsistency by adding a penalty term.
+
 ## About The Project
+
 Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
 
 To illustrate this inconsistency, consider the following scenario:  
@@ -105,4 +115,9 @@ def pll(y, q):
 2. superior_scoring_rules.py: It includes the implementation of Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL).
 2. /history: This folder contains images of statistical analysis. 
 3. /hyperparameters-tuning: This folder includes the results of hyperparameter tuning.
+
+## 🤝 How to Contribute  
+- 🐛 Report bugs via [Issues](https://github.com/Ruhallah93/superior-scoring-rules/issues).  
+- 💡 Suggest improvements via Pull Requests.  
+- 🌟 **Star the repo** if you find it useful!
 
