@@ -18,7 +18,7 @@
 ```
 
 ## About The Project
-Evaluation metrics play a critical role in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. Traditional metrics like the Brier Score and Logarithmic Loss, while widely used, exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
+Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
 
 To illustrate this inconsistency, consider the following scenario:  
 - True Label: `[0, 1, 0]`,  
@@ -36,6 +36,34 @@ Vector `A` represents a correct prediction since the argmax of `A` matches the t
 
 As shown in the table, while `A` is the correct prediction, its Brier Score (0.6534) is not better than `B`’s (0.5202). In addition, the Logarithmic Loss favors `B` (0.3098) over `A` (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
 
+To address this gap, this research introduces the **Penalized Brier Score (PBS)** and **Penalized Logarithmic Loss (PLL)**. These metrics integrate a penalty term for misclassifications, ensuring that:
+- Correct predictions consistently receive better scores.
+- Scoring rules align with the overarching goal of prioritizing accuracy in model evaluation.
+
+The modified Brier Score with the penalty term, Penalized Brier Score (*PBS*), can be expressed as:
+
+```math
+S_{PBS}(q,i) = \sum_{i=1}^{c}(y_i-q_i)^2 + 
+\begin{cases}
+\frac{c-1}{c} & q \in \xi\\ 
+0 & \text{otherwise}
+\end{cases}
+```
+
+The modified Logarithmic Loss with the penalty term, Penalized Logarithmic Loss (*PLL*), can be expressed as:
+
+```math
+S_{PLL}(q,i) = - \sum_{i=1}^{c} y_i \log(p_i) - 
+\begin{cases}
+\log (\frac{1}{c}) & q \in \xi\\ 
+0 & \text{otherwise}
+\end{cases}
+```
+
+where:
+- $y$ is the ground-truth vector
+- $q$ is the predicted probability vector by a probabilistic classifier
+- $c$ is the number of classes
 
 
 ## Code
