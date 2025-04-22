@@ -1,4 +1,4 @@
-# Superior Scoring Rules for Probabilistic Evaluation of Single-Label Multi-Class Classification Tasks
+# Superior Scoring Rules
 
 [Rouhollah Ahmadian](https://www.linkedin.com/in/ruhollah-ahmadian)<sup>1</sup> ,
 [Mehdi Ghatee](https://aut.ac.ir/cv/2174/MEHDI-GHATEE?slc_lang=en&&cv=2174&mod=scv)<sup>1</sup>,
