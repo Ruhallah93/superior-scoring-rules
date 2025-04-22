@@ -1,6 +1,6 @@
 # Superior Scoring Rules: Better Metrics for Probabilistic Evaluation
 
-> 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score and Log Loss. Strictly proper, consistent, and better for model selection.
+> 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score (or MSE) and Log Loss (or Cross-Entropy). Strictly proper, consistent, and better for model selection.
 
 ## 🔍 Problem with Traditional Metrics  
 - ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
