@@ -23,11 +23,6 @@
 - ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
 - ❌ They can give better scores to incorrect models.
 
-## 🎯 Our Solution: PBS & PLL  
-- ✅ Fixes inconsistency by adding a penalty term.
-
-## About The Project
-
 Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score and Logarithmic Loss exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
 
 To illustrate this inconsistency, consider the following scenario:  
@@ -45,6 +40,9 @@ Vector `A` represents a correct prediction since the argmax of `A` matches the t
 | **`B`**  | `[0, 1, 0]`    | `[0.51, 0.49, 0.00]`        | 0.5202      | 0.3098   | ❌ Incorrect |  
 
 As shown in the table, while `A` is the correct prediction, its Brier Score (0.6534) is not better than `B`’s (0.5202). In addition, the Logarithmic Loss favors `B` (0.3098) over `A` (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
+
+## 🎯 Our Solution: PBS & PLL  
+- ✅ Fixes inconsistency by adding a penalty term.
 
 To address this gap, this research introduces the **Penalized Brier Score (PBS)** and **Penalized Logarithmic Loss (PLL)**. These metrics integrate a penalty term for misclassifications, ensuring that:
 - Correct predictions consistently receive better scores.
