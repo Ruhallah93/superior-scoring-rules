@@ -63,8 +63,3 @@ def pll(y, q):
 2. /history: This folder contains images of statistical analysis. 
 3. /hyperparameters-tuning: This folder includes the results of hyperparameter tuning.
 
-<a id="1">[8]</a>
-https://archive.ics.uci.edu/ml/datasets/BLE+RSSI+dataset+for+Indoor+localization
-
-<a id="1">[9]</a>
-https://archive.ics.uci.edu/ml/datasets/WISDM+Smartphone+and+Smartwatch+Activity+and+Biometrics+Dataset+
