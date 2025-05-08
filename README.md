@@ -37,30 +37,30 @@ To ensure correct predictions always receive better scores, we introduce a penal
 These metrics are both strictly proper and superior (never favor wrong over right).
 
 ##  Definitions 
-The modified Brier Score with the penalty term, Penalized Brier Score (*PBS*), can be expressed as:
+Let **y** be the one‑hot true vector, **p** the predicted probability vector, and **c** the number of classes. Define the sets of predictions:
+```math
+\xi  = \{\,p \mid \arg\max p \neq \arg\max y\}\quad\text{(incorrect predictions)}
+```
+
+Then the **Penalized Brier Score (PBS)** is:
 
 ```math
-S_{PBS}(q,i) = \sum_{i=1}^{c}(y_i-q_i)^2 + 
+S_{PBS}(p,i) = \sum_{i=1}^{c}(y_i-p_i)^2 + 
 \begin{cases}
-\frac{c-1}{c} & q \in \xi\\ 
+\frac{c-1}{c} & p \in \xi\\ 
 0 & \text{otherwise}
 \end{cases}
 ```
 
-The modified Logarithmic Loss with the penalty term, Penalized Logarithmic Loss (*PLL*), can be expressed as:
+And the **Penalized Logarithmic Loss (PLL)** is:
 
 ```math
-S_{PLL}(q,i) = - \sum_{i=1}^{c} y_i \log(p_i) - 
+S_{PLL}(p,i) = - \sum_{i=1}^{c} y_i \log(p_i) - 
 \begin{cases}
-\log (\frac{1}{c}) & q \in \xi\\ 
+\log (\frac{1}{c}) & p \in \xi\\ 
 0 & \text{otherwise}
 \end{cases}
 ```
-
-where:
-- $y$ is the ground-truth vector
-- $q$ is the predicted probability vector by a probabilistic classifier
-- $c$ is the number of classes
 
 
 ## 🚀 Quick Start
