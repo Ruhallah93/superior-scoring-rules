@@ -1,36 +1,42 @@
-# Superior Scoring Rules: Better Metrics for Probabilistic Evaluation ([arXiv preprint](https://arxiv.org/pdf/2407.17697))
+# Superior Scoring Rules: Better Metrics for Probabilistic Evaluation ([arXiv Preprint](https://arxiv.org/pdf/2407.17697))
 
-> 📊 PBS and PLL are improved evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score (or MSE) and Log Loss (or Cross-Entropy). Strictly proper, consistent, and better for model selection.
-
+> 📊 PBS and PLL are superior evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score (MSE) and Log Loss (Cross-Entropy). Strictly proper, consistent, and better for model selection, early stopping, and checkpointing.
 ## 🔍 Problem with Traditional Metrics  
-- ❌ Brier Score and Log Loss sometimes favor wrong predictions.  
-- ❌ They can give better scores to incorrect models.
+Accuracy-based metrics (Accuracy, F1) treat all correct predictions equally, ignoring confidence. In high-stakes domains, confidence calibration is critical:
 
-Evaluation metrics are critical in assessing the performance of probabilistic classification models. They influence tasks such as model selection, checkpointing, and early stopping. While widely used, traditional metrics like the Brier Score (or MSE) and Logarithmic Loss (or Cross-Entropy) exhibit certain inconsistencies that can mislead the evaluation process. Specifically, these metrics may assign better scores to incorrect predictions (false positives or false negatives) compared to correct predictions (true positives or true negatives), leading to suboptimal model selection and evaluation.
+- 🧬 Cancer Diagnosis: 51% vs. 99% confidence in malignancy should not be treated differently.
 
-To illustrate this inconsistency, consider the following scenario:  
-- True Label: `[0, 1, 0]`,  
-- Predicted Vector `A`: `[0.33, 0.34, 0.33]`,  
-- Predicted Vector `B`: `[0.51, 0.49, 0]`.  
+- 🏥 ICU Triage & Mortality: Overconfident mispredictions risk patient safety.
 
-Vector `A` represents a correct prediction since the argmax of `A` matches the true label, whereas Vector `B` represents an incorrect prediction because its argmax does not correspond to the true label. Intuitively, scoring rules should reward `A` with a better score than `B`, as `A` achieves accurate classification. However, traditional scoring rules may not align with this intuition.  
+- 🤖 Autonomous Vehicles: Decisions depend on uncertainty about obstacles.
 
-**Comparison of Brier Score and Logarithmic Loss for Vectors `A` and `B`**  
+- 💰 Financial Risk Modeling: Pricing and investment hinge on calibrated probabilities.
+
+- 🔒 Security Threat Detection: High-confidence false negatives undermine defenses.
+
+Thus, Accuracy or F1 Score alone is insufficient: they ignore the confidence of predictions.
+
+## ⚠️ Limitations of MSE & Cross-Entropy
+
+Mean Squared Error (Brier Score) and Cross-Entropy (Log Loss) are strictly proper scoring rules, rewarding calibration. However, they can still favor incorrect predictions over correct ones. Example: 
 
 | Vector | True Label (Y) | Predicted Probabilities (P) | Brier Score | Log Loss | State |
 |--------|----------------|-----------------------------|-------------|----------|-------|
 | **`A`**  | `[0, 1, 0]`    | `[0.33, 0.34, 0.33]`        | 0.6534      | 0.4685   | ✅ Correct |
 | **`B`**  | `[0, 1, 0]`    | `[0.51, 0.49, 0.00]`        | 0.5202      | 0.3098   | ❌ Incorrect |  
 
-As shown in the table, while `A` is the correct prediction, its Brier Score (0.6534) is not better than `B`’s (0.5202). In addition, the Logarithmic Loss favors `B` (0.3098) over `A` (0.4685). Such outcomes contradict the principle that correct classifications should consistently be favored over incorrect ones.
+Both MSE and Log Loss favor B over A, contradicting the principle of rewarding correct predictions.
 
 ## 🎯 Our Solution: PBS & PLL  
-- ✅ Fixes inconsistency by adding a penalty term.
+To ensure correct predictions always receive better scores, we introduce a penalty term for misclassifications:
 
-To address this gap, this research introduces the **Penalized Brier Score (PBS)** and **Penalized Logarithmic Loss (PLL)**. These metrics integrate a penalty term for misclassifications, ensuring that:
-- Correct predictions consistently receive better scores.
-- Scoring rules align with the overarching goal of prioritizing accuracy in model evaluation.
+- ✅ **Penalized Brier Score (PBS)**
 
+- ✅ **Penalized Logarithmic Loss (PLL)**
+
+These metrics are both strictly proper and superior (never favor wrong over right).
+
+##  Definitions 
 The modified Brier Score with the penalty term, Penalized Brier Score (*PBS*), can be expressed as:
 
 ```math
@@ -57,7 +63,7 @@ where:
 - $c$ is the number of classes
 
 
-## Code
+## 🚀 Quick Start
 
 ```python
 import tensorflow as tf
@@ -90,23 +96,38 @@ def pll(y, q):
     return tf.math.reduce_mean(p_log_loss)
 ```
 
-## Files & Directories
+### Early Stopping & Checkpointing
+Use PBS/PLL instead of val_loss:
+```python
+class PBSCallback(tf.keras.callbacks.Callback):
+    def on_epoch_end(self, epoch, logs=None):
+        logs = logs or {}
+        logs['val_pbs'] = pbs(self.validation_data[1], self.model.predict(self.validation_data[0]))
 
-1. [Superior_Scoring_Rules.ipynb](https://github.com/Ruhallah93/superior-scoring-rules/blob/main/Superior_Scoring_Rules.ipynb): It includes the implementation and analysis of the two proposed superior scoring rules.
-2. [superior_scoring_rules.py](https://github.com/Ruhallah93/superior-scoring-rules/blob/main/superior_scoring_rules.py): It includes the implementation of Penalized Brier Score (PBS) and Penalized Logarithmic Loss (PLL).
-2. [/history](https://github.com/Ruhallah93/superior-scoring-rules/tree/main/history): This folder contains images of statistical analysis. 
-3. [/hyperparameters-tuning](https://github.com/Ruhallah93/superior-scoring-rules/tree/main/hyperparameters-tuning): This folder includes the results of hyperparameter tuning.
+model.fit(..., callbacks=[PBSCallback(),
+    tf.keras.callbacks.EarlyStopping(monitor='val_pbs', patience=5, mode='min'),
+    tf.keras.callbacks.ModelCheckpoint('best.h5', monitor='val_pbs', save_best_only=True)
+])
+```
 
-## Paper
+## 📂 Project Structure
 
-[Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks](https://www.sciencedirect.com/science/article/abs/pii/S0888613X25000623)
+Below is an overview of the main files and folders:
 
-[Rouhollah Ahmadian](https://scholar.google.com/citations?user=WwHM50MAAAAJ&hl=en&oi=ao)<sup>1</sup> ,
-[Mehdi Ghatee](https://scholar.google.com/citations?user=b7lfEJwAAAAJ&hl=en&oi=ao)<sup>1</sup>,
-[Johan Wahlström](https://scholar.google.com/citations?user=9rHhb5IAAAAJ&hl=en)<sup>2</sup><br>
-<sup>1</sup>Amirkabir University of Technology, <sup>2</sup>University of Exeter
+```
+├── Superior_Scoring_Rules.ipynb   # Implementation & analysis  
+├── superior_scoring_rules.py      # PBS & PLL functions  
+├── README.md                      # This file  
+├── history/                       # Statistical analysis plots  
+└── hyperparameters-tuning/        # Tuning results  
+```
 
-*If you use our method, please cite it by*:
+## 📄 Paper & Citation
+
+- [Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks](https://www.sciencedirect.com/science/article/abs/pii/S0888613X25000623)
+
+- arXiv: [2407.17697](https://arxiv.org/pdf/2407.17697)
+
 ```
 @article{ahmadian2025superior,
   title={Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks},
