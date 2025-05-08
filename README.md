@@ -37,7 +37,7 @@ To ensure correct predictions always receive better scores, we introduce a penal
 These metrics are both strictly proper and superior (never favor wrong over right).
 
 ##  Definitions 
-Let **y** be the one‑hot true vector, **p** the predicted probability vector, and **c** the number of classes. Define the sets of predictions:
+Let **y** be the one‑hot true vector, **p** the predicted probability vector, and **c** the number of classes. Define the set of predictions:
 ```math
 \xi  = \{\,p \mid \arg\max p \neq \arg\max y\}\quad\text{(incorrect predictions)}
 ```
