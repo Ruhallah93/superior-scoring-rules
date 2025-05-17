@@ -40,7 +40,7 @@ In many high-stakes applications, **confidence calibration** is critical. Tradit
 
 ## Limitations of Traditional Metrics
 
-While **Brier Score (MSE)** and **Log Loss (Cross-Entropy)** are strictly proper scoring rules, they can still favor incorrect, overconfident predictions over more calibrated, correct ones.
+While **Brier Score (Mean Squared Error, MSE, Quadratic Score)** and **Log Loss (Cross-Entropy, Negative Log-Likelihood, NLL, Logarithmic Score)** are strictly proper scoring rules, they can still favor incorrect, overconfident predictions over more calibrated, correct ones.
 
 |  Case | True Class |     Prediction     | Brier Score | Log Loss |              Notes              |
 | :---: | :--------: | :----------------: | :---------: | :------: | :-----------------------------: |
