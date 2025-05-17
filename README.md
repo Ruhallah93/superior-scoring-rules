@@ -1,4 +1,5 @@
-# Superior Scoring Rules: Better Metrics for Probabilistic Evaluation [![PyPI Version](https://img.shields.io/pypi/v/superior-scoring-rules)](https://pypi.org/project/superior-scoring-rules/) [![License](https://img.shields.io/pypi/l/superior-scoring-rules)](LICENSE)
+# Superior Scoring Rules: Better Metrics for Probabilistic Evaluation
+[![PyPI Version](https://img.shields.io/pypi/v/superior-scoring-rules)](https://pypi.org/project/superior-scoring-rules/) [![License](https://img.shields.io/pypi/l/superior-scoring-rules)](LICENSE)
 
 > 📊 PBS and PLL are superior evaluation metrics for probabilistic classifiers, fixing flaws in Brier Score (MSE) and Log Loss (Cross-Entropy). Strictly proper, consistent, and better for model selection, early stopping, and checkpointing.
 
