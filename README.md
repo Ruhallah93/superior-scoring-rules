@@ -12,17 +12,16 @@
 
    * [Definitions](#definitions)
    * [Formulas](#formulas)
-4. [Installation](#installation)
-5. [Quick Start](#quick-start)
+   * [Implementation](#implementation)
+4. [Quick Start](#quick-start)
 
-   * [Penalized Brier Score (PBS)](#penalized-brier-score-pbs)
-   * [Penalized Logarithmic Loss (PLL)](#penalized-logarithmic-loss-pll)
+   * [Installation](#installation)
+   * [Basic Usage](#basic-usage)
    * [Callbacks for Early Stopping & Checkpointing](#callbacks-for-early-stopping--checkpointing)
-6. [Examples](#examples)
-7. [Project Structure](#project-structure)
-8. [Paper & Citation](#paper--citation)
-9. [Contributing](#contributing)
-10. [License](#license)
+5. [Project Structure](#project-structure)
+6. [Paper & Citation](#paper--citation)
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
@@ -80,23 +79,9 @@ S_{PLL}(p,i) = - \sum_{i=1}^{c} y_i \log(p_i) -
 \end{cases}
 ```
 
+### Implementation
 
-## Installation
-
-Install via PyPI:
-
-```bash
-pip install superior-scoring-rules
-```
-
-## Quick Start
-
-```python
-import tensorflow as tf
-from superior_scoring_rules import pbs, pll
-```
-
-### Penalized Brier Score (PBS)
+Penalized Brier Score (PBS)
 
 ```python
 def pbs(y, q):
@@ -125,7 +110,7 @@ def pbs(y, q):
     return tf.math.reduce_mean(brier + payoff)
 ```
 
-### Penalized Logarithmic Loss (PLL)
+Penalized Logarithmic Loss (PLL)
 
 ```python
 def pll(y, q):
@@ -155,6 +140,31 @@ def pll(y, q):
     return tf.math.reduce_mean(ce_loss - payoff)
 ```
 
+
+## Quick Start
+
+### Installation
+Install via PyPI:
+
+```bash
+pip install superior-scoring-rules
+```
+
+### Basic Usage
+```python
+import tensorflow as tf
+from superior_scoring_rules import pbs, pll
+
+# Sample data (batch_size=3, num_classes=4)
+y_true = tf.constant([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 0, 1]])
+y_pred = tf.constant([[0.9, 0.05, 0.05, 0], 
+                     [0.1, 0.8, 0.05, 0.05],
+                     [0.1, 0.1, 0.1, 0.7]])
+
+print("PBS:", pbs(y_true, y_pred).numpy())
+print("PLL:", pll(y_true, y_pred).numpy())
+```
+
 ### Callbacks for Early Stopping & Checkpointing
 
 ```python
@@ -172,10 +182,6 @@ model.fit(...,
     ]
 )
 ```
-
-## Examples
-
-See [Superior\_Scoring\_Rules.ipynb](Superior_Scoring_Rules.ipynb) for detailed usage and experiments.
 
 ## Project Structure
 
