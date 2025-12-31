@@ -213,13 +213,6 @@ Below is an overview of the main files and folders:
 }
 ```
 
-## Contributing
-
-- 🐛 Report bugs via Issues
-
-- 💡 Suggest improvements via Pull Requests
-
-- ⭐️ Star the repository if you find it useful!
 
 ## License
 
