@@ -44,8 +44,8 @@ While **Brier Score (Mean Squared Error, MSE, Quadratic Score)** and **Log Loss 
 
 |  Case | True Class |     Prediction     | Brier Score | Log Loss |              Notes              |
 | :---: | :--------: | :----------------: | :---------: | :------: | :-----------------------------: |
-| **A** |  `[0,1,0]` | `[0.33,0.34,0.33]` |    0.6534   |  0.4685  |  ✅ Correct, but low confidence  |
-| **B** |  `[0,1,0]` | `[0.51,0.49,0.00]` |    0.5202   |  0.3098  | ❌ Incorrect, but "better" score |
+| **A** |  `[0,1,0]` | `[0.33,0.34,0.33]` |    0.6534   |  1.0788  |  ✅ Correct, but low confidence  |
+| **B** |  `[0,1,0]` | `[0.51,0.49,0.00]` |    0.5202   |  0.7133  | ❌ Incorrect, but "better" score |
 
 Traditional scores prefer **B** over **A**, violating the principle that correct predictions should always be rewarded.
 
