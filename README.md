@@ -20,9 +20,10 @@
    * [Basic Usage](#basic-usage)
    * [Callbacks for Early Stopping & Checkpointing](#callbacks-for-early-stopping--checkpointing)
 5. [Project Structure](#project-structure)
-6. [Paper & Citation](#paper--citation)
-7. [Contributing](#contributing)
-8. [License](#license)
+6. [Follow-up Study: Minimal Superior Penalties](#follow-up-study-minimal-superior-penalties)
+7. [Paper & Citation](#paper--citation)
+8. [Contributing](#contributing)
+9. [License](#license)
 
 ---
 
@@ -196,6 +197,25 @@ Below is an overview of the main files and folders:
 └── hyperparameters-tuning/        # Tuning results  
 ```
 
+## Follow-up Study: Minimal Superior Penalties
+
+A second, independent study revisits the penalty above and asks how small
+it can be while still guaranteeing superiority. It derives the exact
+threshold in closed form (the *infimal penalty*), shows the penalty used
+above exceeds that threshold by a provable factor and is one point in a
+larger strictly proper family rather than a uniquely determined value, and
+corrects an error in the original strict-propriety proof under certain
+tie-breaking conventions. A pre-specified empirical case study then checks
+what the published penalty costs relative to the minimal one in practice --
+reported together with its limitations (a non-significant effect once the
+experimental design's nesting is accounted for, non-replication at a higher
+class count, and a baseline control that turned out not to be independent
+of the family under test).
+
+Code, pre-registered experiment configuration, independent verification
+checks, and results for this study are in
+[`minimal-superior-penalties/`](minimal-superior-penalties/).
+
 ## Paper & Citation
 
 - [Superior scoring rules for probabilistic evaluation of single-label multi-class classification tasks](https://www.sciencedirect.com/science/article/abs/pii/S0888613X25000623)
@@ -212,6 +232,11 @@ Below is an overview of the main files and folders:
   publisher={Elsevier}
 }
 ```
+
+The follow-up study (*Minimal Superior Penalties: Characterising and
+Calibrating Decision-Aware Proper Scoring Rules*, Rouhollah Ahmadian) is
+currently under submission; a citation will be added here once it is
+available as a preprint.
 
 
 ## License

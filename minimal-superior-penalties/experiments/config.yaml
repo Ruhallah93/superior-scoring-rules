@@ -1,0 +1,376 @@
+# =============================================================================
+# Pre-registration — Minimal Superior Penalties
+# SCOPE: MNIST and CIFAR-10 only.
+#
+# FREEZE THIS FILE BEFORE ANY RESULT IS READ.
+#   git add experiments/config.yaml && git commit -m "pre-register lambda-frontier"
+#   git rev-parse HEAD > experiments/PREREGISTERED_AT
+#
+# After that commit, changes are permitted only as a dated, justified amendment.
+# The point of this file is that the analysis cannot be reshaped once the
+# numbers are visible.
+#
+# The nine-dataset version is preserved at config.yaml.nine-datasets.bak.
+# =============================================================================
+
+meta:
+  study: "Minimal superior penalties and the lambda-frontier"
+  scope: "MNIST + CIFAR-10"
+  ledger_rows_tested: [R1, R2, R3, R4, R5, R6, R7, R8]
+  status: draft                    # -> "frozen" at the pre-registration commit
+
+# -----------------------------------------------------------------------------
+# Conventions that must be fixed before anything runs
+# -----------------------------------------------------------------------------
+conventions:
+  brier_form: sum                  # sum-form throughout, matching the paper's notation
+  log_base: natural
+  tie_convention: C                # single-valued argmax (numpy.argmax)
+  # Rationale: C is the only convention strictly proper for every Q.
+  # Under C, lambda* is an infimum NOT attained, so the grid carries both
+  # "star" and "star_plus" to test the boundary.
+  tie_epsilon: 1.0e-9
+
+# -----------------------------------------------------------------------------
+# The independent variable
+# -----------------------------------------------------------------------------
+# Both datasets have c = 10, so lambda*(c) is a single scalar and the grid can
+# be stated in absolute terms. Derived values, recorded here so no runtime code
+# has to recompute them (ledger T6, T7, E3a):
+#
+#   lambda*_brier(10) = (c-2)/(2c) = 0.400000
+#   published Eq. 42  = (c-1)/c    = 0.900000     ratio to lambda*: 2.25
+#   implemented Alg. 2 (sum-equiv) = c-1 = 9.0    ratio to lambda*: 22.50
+#   lambda*_log(10)   = log(c/2)   = 1.609438
+#   published Eq. 43  = log c      = 2.302585     ratio to lambda*: 1.43
+# AMENDMENT 1: restructured from one shared grid to one grid per class count. Lambda*, published, and every other grid
+# point are c-dependent, and mnist/cifar10 (c=10) cannot share a grid stated
+# in absolute terms with emnist-balanced (c=47). The c=10 block below is
+# byte-for-byte the same numbers the original (pre-amendment) single grid
+# had -- nothing about the mnist/cifar10 sweep's grid changed.
+lambda_grid:
+  by_classes:
+    10:
+      brier:
+        - {name: zero,        value: 0.000000, note: "pure calibration"}
+        - {name: quarter_star, value: 0.100000}
+        - {name: half_star,   value: 0.200000}
+        - {name: three_q_star, value: 0.300000}
+        - {name: star,        value: 0.400000, note: "lambda*; NOT superior under convention C"}
+        - {name: star_plus,   value: 0.400001, note: "boundary test for the unattained infimum"}
+        - {name: one_half_star, value: 0.600000}
+        - {name: published,   value: 0.900000, note: "source Definition 6"}
+        - {name: implemented, value: 9.000000, note: "source Algorithm 2, sum-equivalent"}
+        - {name: limit,       value: 50.000000, note: "should behave as error rate"}
+      log:
+        - {name: zero,      value: 0.000000}
+        - {name: half_star, value: 0.804719}
+        - {name: star,      value: 1.609438}
+        - {name: star_plus, value: 1.609439}
+        - {name: published, value: 2.302585, note: "source Definition 7"}
+        - {name: limit,     value: 50.000000}
+    47:
+      # AMENDMENT 1 (revised). Same closed forms as the c=10 grid: (c-2)/(2c),
+      # fractions of lambda* for the intermediate points, (c-1)/c published,
+      # c-1 implemented, log(c/2) / log(c) for the log base. limit raised to
+      # 200 (Brier) since implemented=46 alone would exceed the c=10 grid's
+      # limit=50 if 50 were reused here.
+      brier:
+        - {name: zero,        value: 0.000000, note: "pure calibration"}
+        - {name: quarter_star, value: 0.119681}
+        - {name: half_star,   value: 0.239362}
+        - {name: three_q_star, value: 0.359043}
+        - {name: star,        value: 0.478723, note: "lambda*; NOT superior under convention C"}
+        - {name: star_plus,   value: 0.478724, note: "boundary test for the unattained infimum"}
+        - {name: one_half_star, value: 0.718085}
+        - {name: published,   value: 0.978723, note: "source Definition 6"}
+        - {name: implemented, value: 46.000000, note: "source Algorithm 2, sum-equivalent"}
+        - {name: limit,       value: 200.000000, note: "should behave as error rate"}
+      log:
+        - {name: zero,      value: 0.000000}
+        - {name: half_star, value: 1.578500}
+        - {name: star,      value: 3.157000}
+        - {name: star_plus, value: 3.157001}
+        - {name: published, value: 3.850148, note: "source Definition 7"}
+        - {name: limit,     value: 50.000000}
+
+# -----------------------------------------------------------------------------
+# Datasets
+# -----------------------------------------------------------------------------
+datasets:
+  - id: mnist
+    classes: 10
+    source: torchvision.datasets.MNIST
+    input_shape: [1, 28, 28]
+    normalise: {mean: [0.1307], std: [0.3081]}
+    split: {train: 50000, val: 10000, test: 10000}
+    role: >
+      Easy anchor and negative control. At full strength MNIST exceeds 99%
+      accuracy, so the penalty almost never fires and the frontier SHOULD be
+      flat. If it is not, the pipeline is wrong.
+  - id: cifar10
+    classes: 10
+    source: torchvision.datasets.CIFAR10
+    input_shape: [3, 32, 32]
+    normalise: {mean: [0.4914, 0.4822, 0.4465], std: [0.2470, 0.2435, 0.2616]}
+    split: {train: 40000, val: 10000, test: 10000}
+    augmentation: {random_crop: 32, pad: 4, horizontal_flip: true}
+    role: "Primary. Carries the difficulty sweep below."
+  - id: emnist_balanced
+    classes: 47
+    source: torchvision.datasets.EMNIST(split="balanced")
+    input_shape: [1, 28, 28]
+    normalise: {mean: [0.1751], std: [0.3332]}
+    split: {train: 100000, val: 12800, test: 18800}
+    role: >
+      AMENDMENT 1, revised. Added to exercise the theory's c-dependence
+      prediction, untested by mnist/cifar10 (both c=10) -- CIFAR-100 (c=100)
+      was the first choice but was judged too costly and too disconnect-prone
+      on Colab given the trouble the original sweep already had;
+      EMNIST-Balanced gives a meaningfully different, higher class count at
+      MNIST-scale training cost instead. Full regime only, 5 seeds -- the
+      subset/noisy/hard regimes were not judged necessary for this
+      class-count check. Official NIST train/test split (112800/18800); the
+      112800 further split train/val as shown.
+
+# -----------------------------------------------------------------------------
+# Accuracy regime — crossed with lambda, NOT a nuisance parameter
+# -----------------------------------------------------------------------------
+# The source paper's datasets sit at 25-70% macro-F1, which is where near-argmax
+# ties are dense and the penalty term actually bites. MNIST and CIFAR-10 are far
+# easier than that at full strength. Without this axis the study risks measuring
+# a flat frontier that reflects the data rather than the metric.
+regimes:
+  - {id: full,   train_fraction: 1.00, label_noise: 0.00, backbone: resnet18, epochs: 60}
+  - {id: subset, train_fraction: 0.10, label_noise: 0.00, backbone: smallcnn, epochs: 40}
+  - {id: noisy,  train_fraction: 1.00, label_noise: 0.40, backbone: smallcnn, epochs: 40}
+  - {id: hard,   train_fraction: 0.05, label_noise: 0.40, backbone: smallcnn, epochs: 40}
+
+regime_reporting:
+  # A regime whose achieved validation macro-F1 exceeds 90% cannot inform the
+  # frontier. Report it, but exclude it from the headline analysis and say why.
+  informative_threshold_macro_f1: 0.90
+  label_noise: {type: symmetric_uniform, applied_to: train_split_only}
+
+# -----------------------------------------------------------------------------
+# Held fixed across lambda — lambda must be the ONLY varying factor
+# -----------------------------------------------------------------------------
+backbones:
+  smallcnn:
+    conv: [[32, 3], [64, 3]]
+    dropout: 0.3
+    hidden: 128
+    note: "Deliberately under-capacity, to keep predictions diffuse."
+  resnet18:
+    pretrained: false
+    dropout: 0.0
+
+model:
+  optimizer: adam
+  learning_rate: 0.001
+  batch_size: 128
+  scheduler: none
+  training_loss: categorical_crossentropy   # NOT the monitoring metric
+  # The family is an EVALUATION metric in this study. The penalty has zero
+  # gradient almost everywhere, so it is never used as a training objective.
+
+cross_validation:
+  scheme: stratified_holdout
+  # DELIBERATE DEVIATION from the source paper's h-block CV. MNIST and CIFAR-10
+  # are i.i.d. images with no temporal dependence, so h-block is unnecessary.
+  # Record this in the manuscript as a deviation, not an oversight.
+
+seeds: [0, 1, 2, 3, 4]            # all reported, none dropped
+
+determinism:
+  torch_deterministic: true
+  cudnn_benchmark: false
+  identical_batch_order_per_seed: true
+  identical_initialisation_per_seed: true
+
+# -----------------------------------------------------------------------------
+# Compute plan — train once, evaluate every lambda against the same run
+# -----------------------------------------------------------------------------
+# CRITICAL: lambda is a MODEL SELECTION parameter, not a training parameter.
+# The training loss is cross-entropy regardless of lambda. So a single training
+# run per (dataset, regime, seed) produces one stream of per-epoch validation
+# predictions, and EVERY lambda is scored against that same stream offline.
+#
+#   training runs  = 2 datasets x 4 regimes x 5 seeds              =   40
+#                    + emnist_balanced x 1 regime (full) x 5 seeds =    5   (AMENDMENT 1)
+#                    = 45 total; NOT the full 3 x 4 x 5 = 60 cross-product --
+#                    emnist_balanced x {subset,noisy,hard} were not run, by
+#                    deliberate scope choice, not omission.
+#   selections     = 45 x (10 brier + 6 log + 3 baselines
+#                          + 6 mixture weights) x 2 modes      = 2250
+#                    ...but selections are a cheap argmin over a cached array.
+#
+# Naive per-lambda retraining would be unnecessary regardless of cell count.
+compute_plan:
+  train_once_per: [dataset, regime, seed]
+  cache_per_epoch:
+    - validation_predicted_probabilities   # n_val x c, float32
+    - validation_labels
+    - checkpoint_path
+  score_offline: true
+  note: >
+    Early stopping must be SIMULATED offline from the cached stream, not run
+    live, or each lambda would need its own training run. Train to the full
+    epoch budget, then replay the patience rule per lambda. Record that this is
+    a simulation of early stopping in the manuscript.
+  storage_estimate: >
+    10000 val samples x 10 classes x 4 bytes x 60 epochs ~ 24 MB per run;
+    ~1 GB total across 40 runs. Trivial.
+
+selection:
+  modes: [checkpointing, early_stopping]
+  early_stopping_patience: 10
+  min_delta: 0.0
+  restore_best: true
+  # Both modes run and reported separately, matching the source paper's ES/CP
+  # split. One checkpoint stream per lambda value.
+
+# -----------------------------------------------------------------------------
+# Outcome measures — FOUR, not one
+# -----------------------------------------------------------------------------
+outcomes:
+  - {id: macro_f1, of: selected_model, on: test, ledger: R2}
+  - {id: ece, of: selected_model, on: test, bins: 15, binning: equal_mass, ledger: R3}
+  - {id: nll, of: selected_model, on: test, ledger: R4}
+  - {id: selected_epoch_variance, across: seeds, statistic: [std, iqr], ledger: R5}
+  # The last is the stability question: a discontinuous monitoring metric jumps
+  # by lambda whenever one validation sample crosses an argmax boundary.
+
+dispersion:
+  report: [mean, std]
+  # No difference may be described as an improvement without this.
+
+# -----------------------------------------------------------------------------
+# Diagnostics — needed to interpret a flat frontier
+# -----------------------------------------------------------------------------
+# If near-ties are absent, the metric had nothing to discriminate, and a null
+# result is UNINFORMATIVE rather than negative. These distinguish the two.
+diagnostics:
+  - {id: margin_distribution, definition: "top1 minus top2 predicted probability, validation, at selected epoch"}
+  - {id: near_tie_rate, definition: "fraction of validation samples with top1-top2 < 0.01"}
+  - {id: penalty_fire_rate, definition: "fraction of validation samples where the penalty applies"}
+  - {id: achieved_macro_f1, definition: "per regime, to classify informativeness"}
+
+# -----------------------------------------------------------------------------
+# Baselines — without these, "correlates with F1" is indistinguishable from
+# "approximates F1"
+# -----------------------------------------------------------------------------
+baselines:
+  - id: monitor_macro_f1_direct
+    ledger: R6
+    rationale: "Upper bound on accuracy-driven selection."
+  - id: monitor_error_rate_direct
+    ledger: R7
+    rationale: "The lambda -> infinity endpoint of the family."
+  - id: monitor_weighted_brier_plus_error
+    ledger: R8
+    weights: [0.0, 0.25, 0.5, 0.75, 0.9, 1.0]
+    rationale: >
+      An explicit mixture of Brier score and error rate, originally intended
+      as a no-superiority control to isolate whether superiority or
+      accuracy-weighting drives the frontier's rise. On inspection (ledger
+      R8), M_w is algebraically a strictly positive scalar multiple of a
+      member of S_lambda itself for every weight tested except w=0, so it is
+      not independent and does not isolate the two effects; retained as a
+      baseline for the record, not as a no-superiority control.
+
+# -----------------------------------------------------------------------------
+# Pre-specified outcomes — all three are acceptable results
+# -----------------------------------------------------------------------------
+hypotheses:
+  H_flat:
+    statement: >
+      Selected-model macro-F1 is statistically flat for lambda >= lambda*,
+      while ECE and NLL degrade monotonically in lambda.
+    interpretation: >
+      Superiority is the active mechanism. Recommend lambda just above lambda*;
+      the published choice discards calibration sensitivity for no gain.
+  H_monotone:
+    statement: >
+      Selected-model macro-F1 increases monotonically in lambda across the whole
+      grid, including beyond the published value.
+    interpretation: >
+      Superiority is incidental; the benefit is accuracy re-weighting. The honest
+      recommendation is to monitor error rate or macro-F1 directly, and the
+      framing of the source paper's contribution needs revising. A negative
+      result for our hypothesis and the more interesting finding.
+  H_interior:
+    statement: >
+      Selected-model macro-F1 peaks at some interior lambda, with ECE and NLL
+      degrading throughout.
+    interpretation: >
+      A genuine calibration/accuracy trade-off. Map the frontier and give a
+      lambda-selection rule.
+
+decision_rule:
+  primary_comparison: >
+    macro-F1 at star_plus vs at published, paired by
+    (dataset, regime, seed, selection_mode)
+  test: wilcoxon_signed_rank
+  alpha: 0.05
+  multiple_comparisons: holm
+  # Fixed in advance so the test cannot be chosen after seeing the data.
+  # Pairs available: 2 datasets x 4 regimes x 5 seeds x 2 modes = 80.
+
+# -----------------------------------------------------------------------------
+# Scope limitations — copy verbatim into the manuscript's Limitations section
+# -----------------------------------------------------------------------------
+scope_limitations:
+  single_class_count:
+    issue: "Both datasets have c = 10; the frontier's dependence on class count is untested."
+    cost: >
+      The ratio of the published penalty to lambda* falls from 4.00 at c=3 to
+      2.11 at c=20. The theory's sharpest quantitative prediction is not
+      exercised by this design.
+    mitigation: >
+      None within this scope. Adding CIFAR-100 (c=100) reuses the CIFAR pipeline
+      almost unchanged and would close the gap; recommended before submission.
+  easy_datasets:
+    issue: "At full strength both datasets exceed 90% accuracy, where misclassifications and near-ties are rare."
+    cost: "The penalty seldom fires, so a flat frontier may reflect the data rather than the metric."
+    mitigation: >
+      The regime axis pushes CIFAR-10 into the 40-70% band. Report near_tie_rate
+      and penalty_fire_rate alongside every frontier point; a frontier measured
+      where the penalty never fires must be labelled uninformative, not null.
+  domain_shift:
+    issue: "The source paper evaluates on spatio-temporal sensor data; we evaluate on images."
+    cost: "Transfer of the conclusion is an assumption, not a demonstration."
+    mitigation: "State plainly. Do not claim the source datasets would behave identically."
+  label_noise_artefact:
+    issue: "Symmetric label noise produces near-ties by a different mechanism than genuine class overlap."
+    cost: "The regime axis may not reproduce the source datasets' tie structure."
+    mitigation: "Report margin_distribution per regime so the reader can judge the resemblance."
+
+# -----------------------------------------------------------------------------
+# Outputs
+# -----------------------------------------------------------------------------
+outputs:
+  dir: results/
+  frozen: true                     # never overwrite; new runs get a new run_id
+  files:
+    frontier: frontier.csv
+    f1: f1.csv
+    ece: ece.csv
+    nll: nll.csv
+    stability: stability.csv
+    baselines: baselines.csv
+    regimes: regimes.csv
+    margins: margins.csv
+  required_columns: [run_id, dataset, classes, regime, base, lambda_name,
+                     lambda_value, selection_mode, seed, config_hash,
+                     git_commit, value, dispersion]
+  # Every number in the manuscript must be traceable to a row here.
+
+changelog:
+  - date: 2026-08-29
+    change: >
+      Rescoped from the nine source datasets to MNIST + CIFAR-10. Added the
+      regime axis to compensate for both datasets being high-accuracy; switched
+      h-block CV to stratified holdout since the data are i.i.d.; fixed lambda
+      grid to absolute values since c = 10 throughout. Previous version kept at
+      config.yaml.nine-datasets.bak.

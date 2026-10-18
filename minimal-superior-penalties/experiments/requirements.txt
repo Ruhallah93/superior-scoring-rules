@@ -1,0 +1,4 @@
+torch>=2.0
+torchvision>=0.15
+pyyaml>=6.0
+numpy>=1.24
