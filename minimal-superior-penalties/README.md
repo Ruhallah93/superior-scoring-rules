@@ -132,11 +132,14 @@ The manuscript is currently under submission; a DOI/arXiv citation will be
 added here once one is available. In the meantime:
 
 ```bibtex
-@inproceedings{Ahmadian2026MinimalSP,
-  title={Minimal Superior Penalties: Characterising and Calibrating Decision-Aware Proper Scoring Rules},
-  author={Rouhollah Ahmadian},
-  year={2026},
-  url={https://api.semanticscholar.org/CorpusID:295506705}
+@misc{ahmadian2026minimalsuperiorpenaltiescharacterising,
+      title={Minimal Superior Penalties: Characterising and Calibrating Decision-Aware Proper Scoring Rules}, 
+      author={Rouhollah Ahmadian},
+      year={2026},
+      eprint={2611.03734},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG},
+      url={https://arxiv.org/abs/2611.03734}, 
 }
 ```
 
